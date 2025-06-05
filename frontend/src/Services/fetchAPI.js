@@ -7,10 +7,16 @@ const options = (method, body) => ({
   body: body ? JSON.stringify(body) : 'Sem corpo da requisição'
 });
 
-const URL_BASE = 'http://localhost:8080'
+const URL_BASE = 'http://localhost:3001'
 
 const getAllProducts = async () => {
-  fetch(`${URL_BASE}/products`).then(res => res.json());
+  fetch(`${URL_BASE}/products`).then(res => {
+    try {
+      res.json()
+    } catch (error) {
+      console.error("ERRO: ", error);
+    }
+  });
 }
 
 const getProductInfo = async (id) => {

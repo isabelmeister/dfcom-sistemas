@@ -10,12 +10,10 @@ export const Home = () => {
   const { productReviews, setProductReviews } = useContext(Context)
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchProducts = () => {
       setIsLoading(true);
       try {
-        const response = await getAllProducts();
-        const data = await response.json();
-        setProducts(data);
+        getAllProducts().then((response => setProducts(response)))
       } catch (error) {
         console.error('Erro ao carregar produtos:', error);
       } finally {
@@ -24,15 +22,13 @@ export const Home = () => {
     };
 
     fetchProducts();
-  }, [products.length]);
+  }, [products]);
 
   useEffect(() => {
     const fetchReviews = async () => {
       setIsLoading(true);
       try {
-        const response = await getAllReviews();
-        const data = await response.json();
-        setReviews(data);
+        getAllReviews().then(response => setReviews(response))
       } catch (error) {
         console.error('Erro ao carregar avaliações:', error);
       } finally {
@@ -41,7 +37,7 @@ export const Home = () => {
     };
 
     fetchReviews();
-  }, [reviews.length]);
+  },[reviews]);
 
   const itemReviews = (productId) => {
     setProductReviews(reviews.filter((itens) => itens.productId === productId))
@@ -55,7 +51,7 @@ export const Home = () => {
         <h3>Carregando produtos...</h3>
       ) : (
         <ul>
-          {products.map(product => (
+          {products && products.map(product => (
             <Link to={`/product/${product.id}`}>
               <li key={product.id}>
                 {product.name} - R$ {product.price} Reviews: {itemReviews(product.id)}

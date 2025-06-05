@@ -1,14 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import GeneralProvider from './Context/GeneralProvider';
+import { createRoot } from 'react-dom/client';
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('root'));
+root.render(
   <React.StrictMode>
-    <GeneralProvider>
-      <App />
-    </GeneralProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+  <GeneralProvider>
+    <App />
+  </GeneralProvider>
+</React.StrictMode>,);
