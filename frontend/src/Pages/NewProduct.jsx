@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import createNewProduct from '../Services/fetchAPI';
+import { createNewProduct } from '../Services/fetchAPI';
 
 export const NewProduct = () => {
-  const [newProduct, setNewProduct] = useState('');
+  const [newProduct, setNewProduct] = useState({
+    name: '',
+    description: '',
+    price: '',
+    category: ''
+  });
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -11,16 +16,16 @@ export const NewProduct = () => {
     setNewProduct(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async () => {
-    const body = JSON.stringify(newProduct)
-    await createNewProduct(body)
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    createNewProduct(newProduct).catch(err => console.log(err));
     navigate('/');
   }
 
   return (
     <div>
       <h2>Adicione um novo Produto!</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         <input
           name='name'
           type='text'
@@ -53,7 +58,7 @@ export const NewProduct = () => {
           onChange={ handleChange }
           required
         />
-        <button type='submit' onSubmit={ handleSubmit }>Criar produto</button>
+        <button type='submit'>Criar produto</button>
       </form>
     </div>
   );

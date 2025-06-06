@@ -15,10 +15,10 @@ export const Pages = () => {
       <Routes>
         <Route exact path='/' element={ <Home /> } />
         <Route exact path='/product/:id/edit' element={ <EditProduct /> } />
-        <Route exact path='/product/:id' element={ <ProductDetails /> } />
         <Route exact path='/review/:id/edit' element={ <EditReview /> } />
+        <Route exact path='/product/:id' element={ <ProductDetails /> } />
+        <Route exact path='/product/:id/review/new' element={ <NewReview /> } />
         <Route exact path='/product/new' element={ <NewProduct /> } />
-        <Route exact path='/review/new' element={ <NewReview /> } />
         <Route exact path='/home' element={ <NotFound /> } />
       </Routes>
     </BrowserRouter>

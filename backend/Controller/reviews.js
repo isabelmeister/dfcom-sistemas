@@ -6,7 +6,7 @@ const reviewRouter = Router();
 reviewRouter.get('/', async (req, res) => {
   try {
     const review = await Review.find();
-    res.status(200).json({ success: true, count: items.length, data: review });
+    res.status(200).json({ success: true, data: review });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -30,7 +30,7 @@ reviewRouter.get('/:id', async (req, res) => {
 
 reviewRouter.post('/', async (req, res) => {
   try {
-    const { body } = req.params;
+    const { body } = req;
     const review = await Review.create(body);
     res.status(201).json({ success: true, data: review });
   } catch (err) {
@@ -40,8 +40,8 @@ reviewRouter.post('/', async (req, res) => {
 
 reviewRouter.put('/:id', async (req, res) => {
   try {
-    const { id, body } = req.params;
-    const review = await Review.findByIdAndUpdate(id, body, {
+    const { id } = req.params;
+    const review = await Review.findByIdAndUpdate(id, req.body, {
       new: true,
       runValidators: true
     });

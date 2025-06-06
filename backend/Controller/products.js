@@ -5,7 +5,7 @@ const productRouter = Router();
 productRouter.get('/', async (req, res) => {
   try {
     const products = await Product.find();
-    res.status(200).json({ success: true, count: items.length, data: products });
+    res.status(200).json({ success: true, data: products });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -22,13 +22,13 @@ productRouter.get('/:id', async (req, res) => {
     
     res.status(200).json({ success: true, data: product });
   } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: console.log(err.message) });
   }
 })
 
 productRouter.post('/', async (req, res) => {
   try {
-    const { body } = req.params;
+    const { body } = req;
     const product = await Product.create(body);
     res.status(201).json({ success: true, data: product });
   } catch (err) {
@@ -38,8 +38,8 @@ productRouter.post('/', async (req, res) => {
 
 productRouter.put('/:id', async (req, res) => {
   try {
-    const { id, body } = req.params;
-    const product = await Product.findByIdAndUpdate(id, body, {
+    const { id } = req.params;
+    const product = await Product.findByIdAndUpdate(id, req.body, {
       new: true,
       runValidators: true
     });
@@ -56,7 +56,7 @@ productRouter.put('/:id', async (req, res) => {
 
 productRouter.delete('/:id', async (req, res) => {
   try {
-    const { id } = req.params.id;
+    const { id } = req.params;
     const product = await Product.findByIdAndDelete(id);
     
     if (!product) {

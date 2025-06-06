@@ -32,7 +32,7 @@ export const EditProduct = () => {
     e.preventDefault();
     try {
       await updateProduct(id, product)
-      navigate(`/products/${id}`)
+      navigate(`/product/${id}`)
     } catch (error) {
       console.error("Erro ao atualizar:", error);
     }
@@ -91,7 +91,7 @@ export const EditProduct = () => {
           <button 
             type="button" 
             className="cancel-btn"
-            onClick={() => navigate(`/products/${id}`)}
+            onClick={() => navigate(`/product/${id}`)}
           >
             Cancelar
           </button>

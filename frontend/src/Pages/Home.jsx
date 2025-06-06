@@ -1,48 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
-import { getAllProducts, getAllReviews } from '../Services/fetchAPI';
-import Context from '../Context/GeneralContext'
+import { getAllProducts } from '../Services/fetchAPI';
 
 export const Home = () => {
   const [products, setProducts] = useState([]);
-  const [reviews, setReviews] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { productReviews, setProductReviews } = useContext(Context)
 
   useEffect(() => {
-    const fetchProducts = () => {
-      setIsLoading(true);
-      try {
-        getAllProducts().then((response => setProducts(response)))
-      } catch (error) {
-        console.error('Erro ao carregar produtos:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, [products]);
-
-  useEffect(() => {
-    const fetchReviews = async () => {
-      setIsLoading(true);
-      try {
-        getAllReviews().then(response => setReviews(response))
-      } catch (error) {
-        console.error('Erro ao carregar avaliações:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchReviews();
-  },[reviews]);
-
-  const itemReviews = (productId) => {
-    setProductReviews(reviews.filter((itens) => itens.productId === productId))
-    return productReviews.lenght
-  }
+    setIsLoading(true);
+    getAllProducts().then(({data:apiProducts}) => {
+      setProducts(apiProducts);
+    }).catch((err) => console.log(err)).finally(() => setIsLoading(false))
+  }, []);
 
   return (
     <div>
@@ -52,9 +21,9 @@ export const Home = () => {
       ) : (
         <ul>
           {products && products.map(product => (
-            <Link to={`/product/${product.id}`}>
-              <li key={product.id}>
-                {product.name} - R$ {product.price} Reviews: {itemReviews(product.id)}
+            <Link to={`/product/${product._id}`} key={product._id}>
+              <li>
+                {product.name} - R$ {product.price}
               </li>
             </Link>
           ))}
